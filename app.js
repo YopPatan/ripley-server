@@ -1,20 +1,13 @@
 var express = require('express');
+var cors = require('cors')
 
 var productRouter = require('./routes/product');
-var cors = require('cors')
+
 var app = express();
+app.use(cors());
+app.use(express.json());
 
-
-app.use(cors())
-
-/*app.get('/', function (req, res) {
-    res.send('Hello World!');
-});*/
-
-app.use('/', productRouter);
-
-//module.exports = app;
-
+app.use('/product', productRouter);
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');

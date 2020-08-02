@@ -1,66 +1,57 @@
 var express = require('express');
-const axios = require('axios');
+var redis = require('redis');
+var moment = require('moment');
+
+var sessionService = require('../services/session');
+var ripleyService = require('../services/ripley');
 
 var router = express.Router();
+var client = redis.createClient({host: '127.0.0.1', port: 6379, enable_offline_queue: false});
+
+const CACHE_PRODUCT = 'ripley:product_';
+const CACHE_CATALOG = 'ripley:products';
+const CACHE_TIME = 1200;
+
+client.on('error', (error) => {
+    console.error('<' + moment().format() + '> ' + error);
+});
 
 router.get('/:sku', function(req, res) {
-
-    axios.get('https://simple.ripley.cl/api/v2/products/' + req.params.sku)
-        .then(response => {
-            resProduct = response.data;
-
-            var product = {
-                sku: resProduct.partNumber,
-                name: resProduct.name,
-                short: resProduct.shortDescription,
-                fullImage: resProduct.fullImage,
-                images: resProduct.images,
-                prices: resProduct.prices,
-                longDescription: resProduct.longDescription,
-                attributes: resProduct.attributes,
-                warranties: resProduct.warranties
-            }
-            res.json(product);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
+    sessionService.isActive(req.headers.token).then(isActive => {
+        if (isActive) {
+            client.get(CACHE_PRODUCT + req.params.sku, (error, cache) => {
+                if (cache) {
+                    res.json(JSON.parse(cache));
+                } else {
+                    ripleyService.getProduct(req.params.sku).then(product => {
+                        client.setex(CACHE_PRODUCT + req.params.sku, CACHE_TIME, product);
+                        res.json(product);
+                    });
+                }
+            });
+        } else {
+            res.status(403).json({});
+        }
+    });
 });
 
 router.get('/', function(req, res) {
-    const skuProducts = [
-        '2000376979472p', 'MPM00008910464', '2000377670330p',
-        'mpm00009409794', '2000373897021p', '2000361083795p',
-        '2000361188544p', '2000375766370p', 'mpm00009267582',
-        '2000376164809p', '2000379128242p', '2000379497140p',
-        '2000377607749p', 'mpm00001116602', 'mpm00009582948',
-        'mpm00000096350', 'mpm00010027550', 'mpm00008910486'
-    ];
-
-    let requestProducts = skuProducts.map(item => {
-        return axios.get('https://simple.ripley.cl/api/v2/products/' + item)
+    sessionService.isActive(req.headers.token).then(isActive => {
+        if (isActive) {
+            client.get(CACHE_CATALOG, (error, cache) => {
+                if (cache) {
+                    res.json(JSON.parse(cache));
+                } else {
+                    ripleyService.getProducts().then(products => {
+                        client.setex(CACHE_CATALOG, CACHE_TIME, products);
+                        res.json(products);
+                    });
+                }
+            });
+        } else {
+            res.status(403).json({});
+        }
     });
-
-    axios.all(requestProducts).then(responseProducts => {
-        let products = responseProducts.map(item => {
-            let resProduct = item.data;
-
-            let brandAttr = resProduct.attributes.find(attr => attr.name === 'Marca');
-
-            let product = {
-                sku: resProduct.partNumber,
-                name: resProduct.name,
-                short: resProduct.shortDescription,
-                fullImage: resProduct.fullImage,
-                prices: resProduct.prices,
-                brand: brandAttr.value
-            }
-            return product;
-        });
-        res.json(products);
-    });
-
 });
 
 module.exports = router;
