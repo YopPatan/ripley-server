@@ -1,22 +1,22 @@
 var axios = require('axios');
 var moment = require('moment');
 
-const API_RIPLEY_PATH = 'https://simple.ripley.cl/api/v2/products/';
+const API_RIPLEY_PATH = 'https://simple.ripley.cl/api/v2/products';
 const BRAND_ATTR_NAME = 'Marca';
 
 const ripley = {
     getProduct: (sku) => {
-        return axios.get(API_RIPLEY_PATH + sku).then(res => {
+        return axios.get(API_RIPLEY_PATH + '/' + sku).then(res => {
             if ((Math.random() * 100) < 15) {
                 throw new Error('simulator');
             }
-            return this.parseProduct(res.data);
+            return ripley.parseProduct(res.data);
         }).catch(error => {
             console.error('<' + moment().format() + '> ' + error);
             if (error.message === 'simulator') {
                 return ripley.getProduct(sku);
             }
-            return false;
+            return {};
         });
     },
 
@@ -30,16 +30,13 @@ const ripley = {
             'mpm00000096350', 'mpm00010027550', 'mpm00008910486'
         ];
 
-        let requestProducts = skuProducts.map(item => {
-            return axios.get(API_RIPLEY_PATH + item)
-        });
-
-        return axios.all(requestProducts).then(responseProducts => {
+        return axios.get(API_RIPLEY_PATH + '?partNumbers=' + skuProducts.join(',')).then(responseProducts => {
             if ((Math.random() * 100) < 15) {
                 throw new Error('simulator');
             }
-            let products = responseProducts.map(item => {
-                return ripley.parseProduct(item.data);
+            //console.log('responseProducts', responseProducts.data);
+            let products = responseProducts.data.map(item => {
+                return ripley.parseProduct(item);
             });
             return products;
         }).catch(error => {
@@ -47,7 +44,7 @@ const ripley = {
             if (error.message === 'simulator') {
                 return ripley.getProducts();
             }
-            return false;
+            return {};
         });
     },
 

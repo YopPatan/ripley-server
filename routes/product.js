@@ -1,6 +1,5 @@
 var express = require('express');
 var redis = require('redis');
-var moment = require('moment');
 
 var sessionService = require('../services/session');
 var ripleyService = require('../services/ripley');
@@ -13,10 +12,13 @@ const CACHE_CATALOG = 'ripley:products';
 const CACHE_TIME = 1200;
 
 client.on('error', (error) => {
-    console.error('<' + moment().format() + '> ' + error);
+    console.error('redis: ' + error);
 });
 
 router.get('/:sku', function(req, res) {
+    if (req.headers.token === undefined) {
+        res.status(400).json();
+    }
     sessionService.isActive(req.headers.token).then(isActive => {
         if (isActive) {
             client.get(CACHE_PRODUCT + req.params.sku, (error, cache) => {
@@ -30,12 +32,15 @@ router.get('/:sku', function(req, res) {
                 }
             });
         } else {
-            res.status(403).json({});
+            res.status(403).json();
         }
     });
 });
 
 router.get('/', function(req, res) {
+    if (req.headers.token === undefined) {
+        res.status(400).json();
+    }
     sessionService.isActive(req.headers.token).then(isActive => {
         if (isActive) {
             client.get(CACHE_CATALOG, (error, cache) => {
@@ -49,7 +54,7 @@ router.get('/', function(req, res) {
                 }
             });
         } else {
-            res.status(403).json({});
+            res.status(403).json();
         }
     });
 });
