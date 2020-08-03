@@ -14,8 +14,10 @@ app.use("/login", express.static(__dirname + '/client/dist/ripley-site'));
 app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter);
 
-app.listen(8080, function () {
-    console.log('Example app listening on port 3000!');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+    console.log('Press Ctrl+C to quit.');
 });
 
 module.exports = app;
