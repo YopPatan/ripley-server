@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" class="ripley-header">
+  <mat-toolbar-row>
+    <span style="width: 100%">Ripley</span>
+    <button *ngIf="isActive()" (click)="logout()">Cerrar sesión</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="ripley-page">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

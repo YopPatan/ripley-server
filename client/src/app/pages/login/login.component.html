@@ -1,0 +1,33 @@
+<div class="credentials__container credentials__login-center">
+  <div>
+    <div class="text-center">
+      <h2 class="credentials__login-title">¡Bienvenido a Ripley.com!</h2>
+    </div>
+    <p>Disfrutarás de una experiencia de compra más rápida y segura ingresando con tu cuenta</p>
+  </div>
+  <div class="credentials__login-container-without-padding">
+    <div class="credentials__form">
+      <div>
+        <div class="credentials__container">
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label>Usuario</mat-label>
+              <input matInput [(ngModel)]="username">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="fill">
+              <mat-label>Clave</mat-label>
+              <input matInput type="password" [(ngModel)]="password">
+            </mat-form-field>
+          </div>
+          <div class="text-center login">
+            <div>
+              <button (click)="login()" class="btn-loading btn-ripley">Ingresar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

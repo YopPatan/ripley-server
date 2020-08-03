@@ -1,0 +1,36 @@
+h2, .credentials h3 {
+  color: #70578b;
+}
+h2 {
+  font-size: 20px;
+}
+h1, h2, h3, h4, h5 {
+  font-weight: 400;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.credentials__login-center,
+.credentials__recovery-center {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 450px;
+}
+
+button {
+  text-decoration: none;
+  border: none;
+  font-weight: 400;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 2px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 8px;
+  width: 100%;
+  max-width: 300px;
+  line-height: 36px;
+  background: #634d7b;
+}

@@ -1,0 +1,17 @@
+.ripley-header {
+  background: #1a1a1a;
+  height: 70px;
+  z-index: 4000;
+}
+
+.ripley-page {
+  padding-top: 16px;
+}
+
+.container {
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}

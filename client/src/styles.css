@@ -1,0 +1,81 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+  font-family: Montserrat,Helvetica,Arial,sans-serif;
+  line-height: 1.5;
+  color: #6a6a6a;
+  font-size: 14px;
+  margin: 0px;
+}
+
+.mat-figure {
+  align-items: initial !important;
+}
+
+gallery {
+  background-color: unset !important;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: initial !important;
+}
+
+.mat-expansion-panel-header.mat-expanded:focus,
+.mat-expansion-panel-header.mat-expanded:hover {
+  background: #f0f0f0 !important;
+}
+
+.mat-expansion-panel-header-description {
+  display: initial !important;
+  text-align: right !important;
+}
+
+.mat-expansion-panel,
+.mat-expansion-panel-header-title {
+  color: inherit !important;
+}
+
+.mat-expansion-panel-spacing {
+  margin: 0px !important;
+}
+
+mat-row, mat-footer-row {
+  min-height: 38px !important;
+}
+
+.pagination .current {
+  color: #fff !important;
+  background: #bf2626 !important;
+}
+
+.pagination .disabled,
+.pagination .current {
+  background: #f8f8f8;
+  padding: 0.4rem 0.9rem !important;
+}
+
+.pagination li {
+  padding: 0rem !important;
+  background: #f8f8f8 !important;
+}
+
+.ngx-pagination a {
+  padding: 0.4rem 0.9rem !important;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+button {
+  text-decoration: none;
+  border: none;
+  font-weight: 400;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 2px;
+  text-align: center;
+  cursor: pointer;
+  line-height: 24px;
+  background: #634d7b;
+}

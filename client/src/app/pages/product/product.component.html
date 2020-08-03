@@ -1,0 +1,117 @@
+<div *ngIf="!product" style="padding: 100px 0 100px 0;">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div *ngIf="product">
+  <div style="width: 60%; display: inline-block; vertical-align: top;">
+      <div class="grid-col" style="width: 100%">
+        <gallery [items]="images" thumbPosition="left" style="padding-right: 20px;"></gallery>
+      </div>
+  </div>
+  <div style="width: 40%; display: inline-block; vertical-align: top;">
+      <div class="grid-col">
+        <section class="product-header">
+          <h1>{{ product.name }}</h1>
+          <small>SKU {{ product.sku }}</small>
+        </section>
+        <section class="product-info">
+          <ul>
+            <li *ngIf="product.prices.formattedListPrice" class="product-normal-price">
+              <span class="product-price-type">Normal</span>
+              <span class="product-price product-price__line-thru">{{ product.prices.formattedListPrice }}</span>
+            </li>
+            <li *ngIf="product.prices.formattedOfferPrice" [className]="product.prices.formattedOfferPrice != product.prices.formattedPriceRangeMin ? 'product-internet-price-not-best' : ''" class="product-internet-price">
+              <span class="product-price-type">Internet</span>
+              <span class="product-price">{{ product.prices.formattedOfferPrice }}</span>
+            </li>
+            <li *ngIf="product.prices.formattedCardPrice" class="product-ripley-price">
+              <span class="product-price-type">Tarjeta Ripley / Chek</span>
+              <span class="product-price">
+                <img src="//static.ripley.cl/images/opex.png" alt="Precio Tarjeta Ripley">&nbsp;
+                <img src="//static.ripley.cl/images/chek-morado.svg" alt="Precio Tarjeta Ripley">&nbsp;
+                {{ product.prices.formattedCardPrice }}
+              </span>
+            </li>
+            <li *ngIf="product.prices.discountPercentage" class="product-price-discount">
+              <span class="product-price-type">Descuento</span>
+              <span class="product-discount-tag">
+                <span class="discount-percentage">-{{ product.prices.discountPercentage }}%</span>
+              </span>
+              <span class="triangulo"></span>
+            </li>
+            <li class="product-ripley-puntos">
+              <span class="product-price-type">Acumulas</span>
+              <span class="product-price">{{ product.prices.ripleyPuntos }} RipleyPuntos GO</span>
+            </li>
+          </ul>
+        </section>
+        <section *ngIf="product.warranties.length > 0" class="product-extras-block product-warranties opened">
+          <div class="title">
+            <img src="//static.ripley.cl/images/garantia_extendida.svg" />
+            <span>Protege tu producto con Garantía Extendida*</span>
+            <i class="fa fa-chevron-down"></i>
+          </div>
+          <div class="content-container content-container-entered" style="max-height:none;overflow:hidden;transition:max-height 500ms ease">
+            <div class="content">
+              <div class="radio-item-options">
+                <div *ngFor="let warranty of product.warranties" class="radio-item">
+                  <input type="radio" name="warranty" id="warranty-20879490" class="radio-item-input" value="20879490">
+                  <div class="item-radio">
+                    <i class="fa fa-check checked-radio-icon" aria-hidden="true"></i>
+                  </div>
+                  <label for="warranty-20879490" type="button">
+                    <span class="radio-item__label">{{ warranty.shortDescription }}</span>
+                    <span class="radio-item__price">{{ warranty.Price[0].formattedPriceValue }}</span>
+                  </label>
+                </div>
+              </div>
+              <p>*Con Garantía Extendida tu producto quedará protegido frente a defectos de fabricación  ante fallas técnicas.</p>
+              <p>Cubre todos los gastos de diagnóstico de falla, repuestos, mano de obra y traslados necesarios para la reparacion del producto. <a href="https://simple.ripley.cl/minisitios/estatico/extragarantia" target="_blank">Saber más</a></p>
+            </div>
+          </div>
+        </section>
+      </div>
+  </div>
+
+
+
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header class="accordion-item-title">
+        <mat-panel-title>
+          Descripción
+        </mat-panel-title>
+        <mat-panel-description>
+          Ver Menos
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="accordion-item-content" [innerHTML]="product.longDescription"></div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header class="accordion-item-title">
+        <mat-panel-title>
+          Especificaciones
+        </mat-panel-title>
+        <mat-panel-description>
+          Ver Menos
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="accordion-item-content">
+        <mat-table [dataSource]="product.attributes">
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
+          </ng-container>
+          <mat-row *matRowDef="let row; columns: ['name', 'value'];"></mat-row>
+        </mat-table>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

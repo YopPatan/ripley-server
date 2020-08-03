@@ -1,0 +1,44 @@
+<div *ngIf="!products" style="padding: 100px 0 100px 0;">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div *ngIf="products">
+  <div *ngFor="let product of products | paginate: { itemsPerPage: 12, currentPage: page }" class="catalog-product-item__container">
+    <mat-card class="example-card" [routerLink]="'/product/' + product.sku">
+      <img mat-card-image src="{{ product.fullImage }}" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <div class="catalog-product-details">
+          <div class="catalog-product-name-container">
+            <div class="catalog-product-details__logo-container">
+              <div class="brand-logo">
+                <span>{{ product.brand }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="catalog-product-details__name">{{ product.name }}</div>
+          <div class="catalog-product-details__prices">
+            <div class="catalog-prices">
+              <ul class="catalog-prices__list">
+                <li class="catalog-prices__list-price catalog-prices__lowest catalog-prices__line_thru" title="Precio Normal">
+                  {{ product.prices.formattedListPrice }}
+                </li>
+                <li class="catalog-prices__offer-price catalog-prices__highest" title="Precio Internet">
+                  {{ product.prices.formattedOfferPrice }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="product.prices.discountPercentage" class="catalog-product-details__discount-tag">
+            -{{ product.prices.discountPercentage }}%
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="pagination catalog-page__footer-pagination">
+    <pagination-controls (pageChange)="page = $event" [previousLabel]="''" [nextLabel]="''"></pagination-controls>
+  </div>
+</div>
+
+

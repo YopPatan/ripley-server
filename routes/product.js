@@ -16,7 +16,8 @@ client.on('error', (error) => {
 });
 
 router.get('/:sku', function(req, res) {
-    if (req.headers.token === undefined) {
+    if (req.headers.token === undefined || req.headers.token === null) {
+        console.log('token null', req.headers.token);
         res.status(400).json();
     }
     sessionService.isActive(req.headers.token).then(isActive => {
@@ -38,7 +39,8 @@ router.get('/:sku', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-    if (req.headers.token === undefined) {
+    if (req.headers.token === undefined || req.headers.token === null) {
+        console.log('token null', req.headers.token);
         res.status(400).json();
     }
     sessionService.isActive(req.headers.token).then(isActive => {
