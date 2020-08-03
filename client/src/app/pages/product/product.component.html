@@ -45,7 +45,7 @@
             </li>
           </ul>
         </section>
-        <section *ngIf="product.warranties.length > 0" class="product-extras-block product-warranties opened">
+        <section *ngIf="product.warranties != null && product.warranties != undefined && product.warranties.length > 0" class="product-extras-block product-warranties opened">
           <div class="title">
             <img src="//static.ripley.cl/images/garantia_extendida.svg" />
             <span>Protege tu producto con Garantía Extendida*</span>
