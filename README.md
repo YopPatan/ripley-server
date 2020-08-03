@@ -5,6 +5,9 @@ Proyecto que simula un catalogo de productos y muestra el detalle de un producto
 * Se utiliza la API de ripley para obtener los datos del producto y el catalogo.
 * Se utiliza REDIS para guardar los resultados de API de ripley para guardar un cache por 120 segundos.
 * Se simula un 15% de errores al momento de consultar API de ripley.
+* Se realiza sesion con Firebase Auth
+  * user: test@test.cl
+  * pass: test123
 
 ### Instalacion en local
 
@@ -62,5 +65,3 @@ Para la instalcion en GCP se debe tener:
 `npm install`
 
 `gcloud app deploy`
-
-
