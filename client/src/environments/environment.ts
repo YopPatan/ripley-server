@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  urlApiRipley: 'http://localhost:3000/api',
   firebaseConfig: {
     apiKey: 'AIzaSyCXzzo6QfsNuPXC0CSpHUoDcRZv7vZAbd4',
     authDomain: 'ripley-server-auth.firebaseapp.com',

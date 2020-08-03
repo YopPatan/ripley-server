@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +11,16 @@ export class ProductService {
   ) { }
 
   getProduct(sku): Promise<any> {
-    return this.http.get('http://localhost:3000/api/product/' + sku, this.getHeaders()).toPromise();
+    return this.http.get(environment.urlApiRipley + '/product/' + sku, this.getHeaders()).toPromise();
   }
 
   getAuth(): Promise<any> {
-    return this.http.get('http://localhost:3000/api/auth', this.getHeaders()).toPromise();
+    return this.http.get(environment.urlApiRipley + '/auth', this.getHeaders()).toPromise();
   }
 
   getCatalog(): Promise<any> {
     console.log('headers', this.getHeaders());
-    return this.http.get<any[]>('http://localhost:3000/api/product', this.getHeaders()).toPromise();
+    return this.http.get<any[]>(environment.urlApiRipley + '/product', this.getHeaders()).toPromise();
   }
 
   getHeaders(): any {

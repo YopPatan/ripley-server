@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  urlApiRipley: 'https://jtalloni-demo.appspot.com/api',
   firebaseConfig: {
     apiKey: 'AIzaSyCXzzo6QfsNuPXC0CSpHUoDcRZv7vZAbd4',
     authDomain: 'ripley-server-auth.firebaseapp.com',
