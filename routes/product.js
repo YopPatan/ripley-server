@@ -5,7 +5,7 @@ var sessionService = require('../services/session');
 var ripleyService = require('../services/ripley');
 
 var router = express.Router();
-var client = redis.createClient({host: '127.0.0.1', port: 6379, enable_offline_queue: false});
+var client = redis.createClient({host: '10.199.184.227', port: 6379, enable_offline_queue: false});
 
 const CACHE_PRODUCT = 'ripley:product_';
 const CACHE_CATALOG = 'ripley:products';
