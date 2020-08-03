@@ -5,11 +5,11 @@ var sessionService = require('../services/session');
 var ripleyService = require('../services/ripley');
 
 var router = express.Router();
-var client = redis.createClient({host: '10.199.184.227', port: 6379, enable_offline_queue: false});
+var client = redis.createClient({host: '10.199.184.227', port: 6379, enable_offline_queue: true});
 
 const CACHE_PRODUCT = 'ripley:product_';
 const CACHE_CATALOG = 'ripley:products';
-const CACHE_TIME = 1200;
+const CACHE_TIME = 120;
 
 client.on('error', (error) => {
     console.error('redis: ' + error);
@@ -27,7 +27,7 @@ router.get('/:sku', function(req, res) {
                     res.json(JSON.parse(cache));
                 } else {
                     ripleyService.getProduct(req.params.sku).then(product => {
-                        client.setex(CACHE_PRODUCT + req.params.sku, CACHE_TIME, product);
+                        client.setex(CACHE_PRODUCT + req.params.sku, CACHE_TIME, JSON.stringify(product));
                         res.json(product);
                     });
                 }
@@ -50,7 +50,7 @@ router.get('/', function(req, res) {
                     res.json(JSON.parse(cache));
                 } else {
                     ripleyService.getProducts().then(products => {
-                        client.setex(CACHE_CATALOG, CACHE_TIME, products);
+                        client.setex(CACHE_CATALOG, CACHE_TIME, JSON.stringify(products));
                         res.json(products);
                     });
                 }
