@@ -14,7 +14,7 @@ app.use("/login", express.static(__dirname + '/client/dist/ripley-site'));
 app.use('/api/auth', authRouter);
 app.use('/api/product', productRouter);
 
-app.listen(3000, function () {
+app.listen(8080, function () {
     console.log('Example app listening on port 3000!');
 });
 
